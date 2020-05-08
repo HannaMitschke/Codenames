@@ -1,0 +1,116 @@
+.card {
+  background: lightgrey;
+  width: 220px;
+  height: 100px;
+  border: 3px solid black;
+  padding: 40px;
+  margin: 5px;
+  text-align: center;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 17px;
+  border-radius: 6 px;  
+}
+
+.card:enabled:hover {
+  background: rgb(235, 235, 235);
+  cursor: pointer; 
+}
+
+.picked {
+  opacity: 0.55;
+}
+
+.blue:disabled {
+  background: rgb(0, 64, 255);
+  color: white;
+}
+
+.blue:enabled {
+  background: lightgrey;
+  color: black;
+}
+
+.red:disabled {
+  background: rgb(255, 51, 51);
+  color: white;
+}
+
+.red:enabled {
+  background: lightgrey;
+  color: black;
+}
+
+.tan:disabled {
+  background: tan;
+  color: black;
+}
+
+.tan:enabled {
+  background: lightgrey;
+  color: black;
+}
+
+.black:disabled {
+  background: rgb(67, 67, 67);
+  color: white;
+}
+
+.black:enabled {
+  background: lightgrey;
+  color: black;
+}
+
+.column {
+  float: left;
+  width: 20%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.btn {
+  border: none;
+  color: black;
+  background: rgb(145, 145, 145);
+  padding: 14px 28px;
+  font-family: Tahoma, Geneva, sans-serif;
+  box-shadow: 0 6px 6px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.btn:enabled {
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background: lightgray;
+  color:gray;
+}
+
+.btn:enabled:hover {
+  background: #ddd;
+}
+
+h3 {
+  display: inline-block;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+h2 {
+  text-align: center; 
+  padding: 2px;
+  margin: 2px;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+
+.redtext {
+	color: rgb(255, 51, 51);
+}
+
+.bluetext {
+	color: rgb(0, 64, 255);
+}

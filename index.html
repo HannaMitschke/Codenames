@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Codenames</title>
+	<link rel="stylesheet" href="ExternalCSS.CSS"/>
+	<link rel="shortcut icon" href="logo.png"/>
+	<script type="text/javascript">
+		function initialize() {
+			var words = ['africa', 'agent', 'air', 'alien', 'amazon', 'angel', 'antarctica', 'apple', 'arm', 'back', 'band', 'bank', 'bark', 'beach', 'belt', 'berlin', 'berry', 'board', 'bond', 'boom', 'bow', 'box', 'bug', 'canada', 'capital', 'cell', 'center', 'china', 'chocolate', 'circle', 'club', 'compound', 'copper', 'crash', 'cricket', 'cross', 'death', 'dice', 'dinosaur', 'doctor', 'dog', 'dress', 'dwarf', 'eagle', 'egypt', 'engine', 'england', 'europe', 'eye', 'fair', 'fall', 'fan', 'field', 'file', 'film', 'fish', 'flute', 'fly', 'forest', 'fork', 'france', 'gas', 'ghost', 'giant', 'glass', 'glove', 'gold', 'grass', 'greece', 'green', 'ham', 'head', 'himalaya', 'hole', 'hood', 'hook', 'human', 'horseshoe', 'hospital', 'hotel', 'ice', 'ice Cream', 'india', 'iron', 'ivory', 'jam', 'jet', 'jupiter', 'kangaroo', 'ketchup', 'kid', 'king', 'kiwi', 'knife', 'knight', 'lab', 'lap', 'laser', 'lawyer', 'lead', 'lemon', 'limousine', 'leadlock', 'log', 'mammoth', 'maple', 'march', 'mass', 'mercury', 'millionaire', 'model', 'mole', 'moscow', 'mouth', 'mug', 'needle', 'net', 'new York', 'night', 'note', 'novel', 'nurse', 'nut', 'oil', 'olive', 'olympus', 'opera', 'orange', 'paper', 'park', 'part', 'paste', 'phoenix', 'piano', 'telescope', 'teacher', 'switch', 'swing', 'sub', 'stick', 'staff', 'stadium', 'sprint', 'spike', 'snowman', 'slip', 'shot', 'shadow', 'server', 'ruler', 'row', 'rose', 'root', 'rome', 'rock', 'robot', 'robin', 'revolution', 'rat', 'racket', 'queen', 'press', 'port', 'pilot', 'time', 'tooth', 'tower', 'truck', 'triangle', 'trip', 'turkey', 'undertaker', 'unicorn', 'vacuum', 'van', 'wake', 'wall', 'war', 'washer', 'washington', 'water', 'wave', 'well', 'whale', 'whip', 'worm', 'yard'];
+			for (var i = 0; i < words.length; i++) {
+				words[i] = words[i].charAt(0).toUpperCase() + words[i].substring(1); 
+			}
+			
+			var randomNums = [];
+			while(randomNums.length < 25){
+				var r = Math.floor(Math.random() * 187) + 1;
+				if(randomNums.indexOf(r) === -1) randomNums.push(r);
+			}
+			
+			for( i = 1; i <= 25; i++ ){
+				document.getElementById(i).innerHTML = words[randomNums[i-1]-1];
+			}
+			
+			var hasMore = "";
+			var hasLess = "";
+			var rORb = Math.floor(Math.random() * 2);
+			if (rORb == 0) { //red goes first
+				hasMore = "red";
+				hasLess = "blue";
+				document.getElementById("redamt").innerHTML = "9"
+				document.getElementById("blueamt").innerHTML = "8"
+				document.getElementById("whosturn").innerHTML = "Red's Turn";
+				document.getElementById("whosturn").classList.add("redtext");
+			}
+			else { //blue goes first
+				hasMore = "blue";
+				hasLess = "red";
+				document.getElementById("blueamt").innerHTML = "9"
+				document.getElementById("redamt").innerHTML = "8"
+				document.getElementById("whosturn").innerHTML = "Blue's Turn";
+				document.getElementById("whosturn").classList.add("bluetext");
+			}
+			
+			var moreCards = [];
+			while(moreCards.length < 9){
+				var r = Math.floor(Math.random() * 25) + 1;
+				if(moreCards.indexOf(r) == -1) moreCards.push(r);
+			}
+			
+			for( i = 1; i <= 9; i++ ){
+				document.getElementById(moreCards[i-1]).classList.add(hasMore);
+			}
+			
+			var lessCards = [];
+			while(lessCards.length < 8){
+				var r = Math.floor(Math.random() * 25) + 1;
+				if(lessCards.indexOf(r) == -1 && moreCards.indexOf(r) == -1) lessCards.push(r);
+			}
+			
+			for( i = 1; i <= 8; i++ ){
+				document.getElementById(lessCards[i-1]).classList.add(hasLess);
+			}
+			
+			var deathCard = [];
+			while(deathCard.length < 1){
+				var r = Math.floor(Math.random() * 25) + 1;
+				if(lessCards.indexOf(r) == -1 && moreCards.indexOf(r) == -1) deathCard.push(r);
+			}
+			
+			document.getElementById(deathCard[0]).classList.add("black");
+			
+			var all = lessCards.concat(moreCards);
+			all = all.concat(deathCard);
+			
+			var neutralCards = [];
+			for( i = 1; i <= 25; i++ ){
+				if(!all.includes(i)) neutralCards.push(i);
+			}
+			
+			for( i = 1; i <= 7; i++ ){
+				document.getElementById(neutralCards[i-1]).classList.add("tan");
+			}
+			
+			for( i = 1; i <= 25; i++ ){
+				document.getElementById(i).disabled = false;
+			}
+			
+			document.getElementById("playerButton").disabled = true;
+			document.getElementById("spyButton").disabled = false;
+			document.getElementById("turnButton").disabled = false;
+		}
+        window.onload = initialize;
+    </script>
+</head>
+<body>
+	<h1></h1>
+	<div>
+		<h2 id="title"><span id="redamt" style="color:rgb(255, 51, 51)"></span>-<span id="blueamt" style="color:rgb(0, 64, 255)"></span></h2>
+		<button id="turnButton" class="btn default" onclick="changeTurn()">Change Turns</button>
+		<h3 id ="whosturn"></h3>
+	</div>
+	<div id="cards">
+		<div class="row">
+			<div class="column">
+				<button class="card" id="1" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="2" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="3" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="4" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="5" onclick="select(this.id)"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<button class="card" id="6" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="7" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="8" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="9" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="10" onclick="select(this.id)"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<button class="card" id="11" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="12" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="13" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="14" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="15" onclick="select(this.id)"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<button class="card" id="16" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="17" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="18" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="19" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="20" onclick="select(this.id)"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<button class="card" id="21" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="22" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="23" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="24" onclick="select(this.id)"></button>
+			</div>
+			<div class="column">
+				<button class="card" id="25" onclick="select(this.id)"></button>
+			</div>
+		</div>
+	</div>
+	<button id="spyButton" class="btn default" onclick="spymaster()">Spymaster</button>
+	<button id="playerButton" class="btn default" onclick="player()">Player</button>
+	<button class="btn default" onclick="restart()">Restart</button>
+</body>
+
+<script>
+	function select(clicked_id) {
+		document.getElementById(clicked_id).disabled = true;
+		document.getElementById(clicked_id).classList.add("selected");
+		if (document.getElementById(clicked_id).classList.contains("black")){
+			for( i = 1; i <= 25; i++ ){
+				document.getElementById(i).disabled = true;
+			}
+			document.getElementById("spyButton").disabled = true;
+			document.getElementById("playerButton").disabled = true;
+			document.getElementById("turnButton").disabled = true;
+			if (document.getElementById("whosturn").classList.contains("redtext")){
+				document.getElementById("title").classList.add("bluetext");
+				document.getElementById("title").innerHTML = "Blue Wins!";
+			}
+			else if (document.getElementById("whosturn").classList.contains("bluetext")){
+				document.getElementById("title").classList.add("redtext");
+				document.getElementById("title").innerHTML = "Red Wins!";
+			}
+		}
+		else if (document.getElementById(clicked_id).classList.contains("tan")){
+			changeTurn();
+		}
+		else if (document.getElementById(clicked_id).classList.contains("red")){
+			var redScore = parseInt(document.getElementById("redamt").innerHTML);
+			redScore = redScore - 1;
+			redScore = redScore.toString();
+			document.getElementById("redamt").innerHTML = redScore;	
+			if (document.getElementById("whosturn").classList.contains("bluetext")){
+				changeTurn();
+			}
+		}
+		else if (document.getElementById(clicked_id).classList.contains("blue")){
+			var blueScore = parseInt(document.getElementById("blueamt").innerHTML);
+			blueScore = blueScore - 1;
+			blueScore = blueScore.toString();
+			document.getElementById("blueamt").innerHTML = blueScore;
+			if (document.getElementById("whosturn").classList.contains("redtext")){
+				changeTurn();
+			}
+		}
+	}
+	
+	function changeTurn() {
+	var element = document.getElementById("whosturn");
+		if (element.innerHTML == "Blue's Turn"){
+			element.innerHTML = "Red's Turn";
+			element.classList.remove("bluetext");
+			element.classList.add("redtext");
+		}
+		else {
+			element.innerHTML = "Blue's Turn";
+			element.classList.remove("redtext");
+			element.classList.add("bluetext");
+		}
+	}
+	
+	function spymaster() {
+		document.getElementById("spyButton").disabled = true;
+		document.getElementById("playerButton").disabled = false;
+		for( i = 1; i <= 25; i++ ){
+			if (document.getElementById(i).classList.contains("selected") == true){
+				document.getElementById(i).classList.add("picked");
+			}
+			document.getElementById(i).disabled = true;
+		}
+	}
+	
+	function player() {
+		document.getElementById("playerButton").disabled = true;
+		document.getElementById("spyButton").disabled = false;
+		for( i = 1; i <= 25; i++ ){
+			if (document.getElementById(i).classList.contains("selected") == false){
+				document.getElementById(i).disabled = false;
+			}
+			if (document.getElementById(i).classList.contains("picked") == true){
+				document.getElementById(i).classList.remove("picked");
+			}
+		}
+	}
+	
+	function restart() {
+		location.reload();
+		for( i = 1; i <= 25; i++ ){
+			document.getElementById(i).disabled = false;
+		}
+	}
+</script>
